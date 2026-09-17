@@ -5,11 +5,9 @@ type Activity = { id: number; tone: 'in' | 'out' | 'save' | 'back'; value: numbe
 const format = (value: number) => value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
 
 function App() {
-  const [balance, setBalance] = useState(48240.58)
-  const [reserve, setReserve] = useState(7140)
-  const [activity, setActivity] = useState<Activity[]>([
-    { id: 1, tone: 'in', value: 2500 }, { id: 2, tone: 'out', value: -320 }, { id: 3, tone: 'save', value: 500 },
-  ])
+  const [balance, setBalance] = useState(0)
+  const [reserve, setReserve] = useState(0)
+  const [activity, setActivity] = useState<Activity[]>([])
   const [history, setHistory] = useState(true)
   const [flash, setFlash] = useState(false)
   const record = (tone: Activity['tone'], value: number) => { setActivity(items => [{ id: Date.now(), tone, value }, ...items].slice(0, 4)); setFlash(true) }
@@ -17,7 +15,7 @@ function App() {
   const pay = () => { if (balance >= 75) { setBalance(v => v - 75); record('out', -75) } }
   const save = () => { if (balance >= 50) { setBalance(v => v - 50); setReserve(v => v + 50); record('save', 50) } }
   const take = () => { if (reserve >= 50) { setReserve(v => v - 50); setBalance(v => v + 50); record('back', 50) } }
-  const reset = () => { setBalance(48240.58); setReserve(7140); setActivity([]); setFlash(true) }
+  const reset = () => { setBalance(0); setReserve(0); setActivity([]); setFlash(true) }
 
   return <main className="app">
     <aside className="rail" aria-label="Navegação"><div className="logo"><span /><span /><span /></div><div className="rail-lines"><i /><i /><i /><i /></div><button type="button" className="rail-reset" aria-label="Restaurar valores" onClick={reset}>◒</button></aside>
